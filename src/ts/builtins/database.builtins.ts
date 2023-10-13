@@ -1,5 +1,5 @@
-import { DestructureTag, Number } from "../utils";
-import { Stack, Item } from "../types";
+import { DestructureTag, Number } from "../lib/utils";
+import { Stack, Item } from "../lib/types";
 
 let k_v_database: any = {};
 let streams: any = {};
@@ -22,8 +22,6 @@ export const database_builtins = {
         if (!key) return stack;
         let value = stack.main_stack.pop();
         if (!value) return stack;
-
-        console.log("setting", key, "to", value)
         
         k_v_database[key] = value;
         break;

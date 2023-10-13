@@ -1,5 +1,6 @@
 const BASE_URL = process.env.BASE_URL || '';
 
 export default {
-    "base": `/${BASE_URL}`
+    "base": `/${BASE_URL}`,
+    "root": "src",
 };

@@ -1,3 +1,5 @@
+( Simple Color Picker )
+
 : red! ( n - ) #red #set kv ; : red@ ( - n ) #red #get kv ;
 : green! ( n - ) #green #set kv ; : green@ ( - n ) #green #get kv ; 
 : blue! ( n - ) #blue #set kv ; : blue@ ( - n ) #blue #get kv ; 

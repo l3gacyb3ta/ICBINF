@@ -1,11 +1,10 @@
-import { Stack } from "../types";
-import { Number, DestructureNumber } from "../utils";
+import { Stack } from "../lib/types";
+import { Number, DestructureNumber } from "../lib/utils";
 
 export const math_builtins = {
   "+": function (stack: Stack): Stack {
     let y = DestructureNumber(stack.main_stack.pop());
     let x = DestructureNumber(stack.main_stack.pop());
-    console.log(y, x)
     if ((x != null) && (y != null)) {
       stack.main_stack.push(Number(x + y));
     }

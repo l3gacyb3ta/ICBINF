@@ -1,6 +1,6 @@
-import { Stack, TypeTag, Item, Stream } from "../types"
-import { DestructureNumber, DestructureString, DestructureTag, Identifier, Number } from "../utils"
-import { run } from "../interp";
+import { Stack, TypeTag, Item, Stream } from "../lib/types"
+import { DestructureNumber, DestructureString, DestructureTag, Identifier, Number } from "../lib/utils"
+import { run } from "../lib/interp";
 
 export const ui_builtins = {
     "Title": function (stack: Stack): Stack {
@@ -91,8 +91,6 @@ export const ui_builtins = {
         if (!(object.tag == TypeTag.JSON)) return stack;
         
         object.value.id = value;
-        // console.log(object)
-
         stack.main_stack.push(object);
 
         return stack
@@ -149,16 +147,13 @@ export const ui_builtins = {
             case "set-style": {
                 let value = stack.main_stack.pop().value;
                 if (typeof value != "string") return stack;
+
                 let property = DestructureTag(stack.main_stack.pop())
                 if (property == null) return stack;
-
-                // console.log(property, value)
                 
                 let el = document.getElementById("output").contentWindow.document.getElementById(operand);
 
                 el.style[property] = value;
-                console.log(el);
-
             }
         }
 
@@ -167,7 +162,6 @@ export const ui_builtins = {
     },
     "render": function (stack: Stack): Stack {
         let object: any = stack.main_stack.pop()
-        console.log(object)
 
         let out = `<style>
 .uiHorizontal {
@@ -189,8 +183,6 @@ export const ui_builtins = {
         } else {
             out += `<${object.value.html_tag} style="${object.value.style}" id="${object.value.id}">${object.value.value}</${object.value.html_tag}>`
         }
-
-        console.log(out);
 
         let el: any = document.getElementById("output")
         el.contentWindow.document.open();

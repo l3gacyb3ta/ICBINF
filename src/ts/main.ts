@@ -1,78 +1,14 @@
-import { DestructureString, String, Number } from "./utils";
-import { Stack, Stream, split_up, parse_token } from "./types";
-import { run, dynamic_words } from "./interp";
-import { kissc } from './vendor/kissc';
+import { run, dynamic_words } from "./lib/interp";
+import { Stack, Stream } from "./lib/types";
+import { split_up, parse_token } from "./lib/parse";
 
-let default_builtins: any = {
-  "concat": function (stack: Stack): Stack {
-    // console.log(JSON.stringify(stack.main_stack))
-    let y = stack.main_stack.pop().value;
-    let x = DestructureString(stack.main_stack.pop());
-    // console.log(String(x.concat(y.toString())))
-    if ((x != null) && (y != null)) {
-      stack.main_stack.push(String(x.concat(y.toString())));
-    }
-    console.log(JSON.stringify(stack.main_stack))
-    return stack;
-  },
-  "swap": function (stack: Stack): Stack {
-    let y = stack.main_stack.pop();
-    let x = stack.main_stack.pop();
-    if (x && y) {
-      stack.main_stack.push(y);
-      stack.main_stack.push(x);
-    }
-    return stack;
-  },
-  "dup": function (stack: Stack): Stack {
-    let x = stack.main_stack.pop();
-    if (x) {
-      stack.main_stack.push(x);
-      stack.main_stack.push(x);
-    }
-    return stack;
-  },
-  "hold": function (stack: Stack): Stack {
-    let x = stack.main_stack.pop()
-    if (x) stack.hold_stack.push(x);
-    return stack;
-  },
-  "release": function (stack: Stack): Stack {
-    let x = stack.hold_stack.pop()
-    if (x) stack.main_stack.push(x);
-    return stack;
-  },
-  "drop": function (stack: Stack): Stack {
-    stack.main_stack.pop()
-    return stack;
-  },
-  ".": function (stack: Stack): Stack {
-    let x = stack.main_stack.pop();
-    let console_el: any = document.getElementById("console");
-    console_el.value += x?.value + "\n";
-    console.log(x?.value)
-    return stack;
-  },
-  "=": function (stack: Stack): Stack {
-    let y = stack.main_stack.pop();
-    let x = stack.main_stack.pop();
-
-    if (y?.value == x?.value && x?.tag == y?.tag) {
-      stack.main_stack.push(Number(1))
-    } else {
-      stack.main_stack.push(Number(0))
-    }
-
-    return stack;
-  }
-}
-
+import { base_builtins } from "./builtins/base.builtins"
 import { math_builtins } from "./builtins/math.builtins"
 import { database_builtins } from "./builtins/database.builtins"
 import { ui_builtins } from "./builtins/ui.builtins"
 
 export const builtins = {
-  ...default_builtins,
+  ...base_builtins,
   ...math_builtins,
   ...database_builtins,
   ...ui_builtins
@@ -81,30 +17,54 @@ export const builtins = {
 
 let stack: Stack = { main_stack: [], hold_stack: [] };
 
-let clear_button = document.getElementById('clear');
-function clear() { document.getElementById('console').value = '' }
+const clear_button = document.getElementById('clear');
+const clear = () => { document.getElementById('console').value = '' }
 clear_button.onclick = clear
 
 let ticker: NodeJS.Timeout;
 
-
-let button = document.getElementById("runable");
-button.onclick = function () {
+const run_button = document.getElementById("runable");
+run_button.onclick = function () {
+  // clear existing loop
   clearInterval(ticker);
   clear();
+  // read in code and create stream.
   let data: any = document.getElementById("input");
-
-
   let token_stream = new Stream(split_up(data.value).map(parse_token));
   stack = run(token_stream, stack);
 
-  if ("loop" in dynamic_words) {
+  if ("loop" in dynamic_words && ticker == null ) {
     ticker = setInterval(() => {
       let token_stream = new Stream(split_up(" loop ").map(parse_token));
       stack = run(token_stream, stack);
     }, 35)
   }
 }
+
+// watch words, so we can show user defined words.
+let words = document.getElementById("words")
+setInterval(() => {
+  words.innerHTML = ""
+  Object.keys(dynamic_words).forEach((word: string) => {
+    words.innerHTML += `<li>${word}</li>`
+  });
+
+}, 500)
+
+
+const load_file = async () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  
+  if (urlParams.get("loadfile") == null) return;
+
+  fetch(`https://corsproxy.io/?${urlParams.get("loadfile")}`).then(async (resp) => {
+    document.getElementById("input").value = await resp.text()
+  })
+
+};
+load_file();
+
 
 // let share = document.getElementById("share");
 // let shareModal = document.querySelector("dialog");
@@ -122,39 +82,3 @@ button.onclick = function () {
 //   location.replace(url);  
 //   console.log(url);
 // }
-
-document.getElementById("input").value = `Slider #redSlider id
-Square #square id
-2 VStack
-render
-
-: slider ( value - )
-    255 * round 
-    "rgb(" swap concat ",0,0)" concat 
-    #background-color swap #square #set-style ui
-;
-
-#slider #redSlider #attach ui`
-
-let words = document.getElementById("words")
-setInterval(() => {
-  words.innerHTML = ""
-  Object.keys(dynamic_words).forEach((word: string) => {
-    words.innerHTML += `<li>${word}</li>`
-  });
-
-}, 500)
-
-async function recoverState() {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  console.log(urlParams);
-
-  fetch(`https://corsproxy.io/?${urlParams.get("loadfile")}`).then(async (resp) => {
-    // console.log(await resp.text())
-    document.getElementById("input").value = await resp.text()
-  })
-
-}
-
-recoverState() 

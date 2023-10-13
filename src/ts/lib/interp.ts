@@ -1,7 +1,6 @@
 import { Number, DestructureNumber, DestructureTag, Identifier } from "./utils";
 import { Item, TypeTag, Stack, Stream } from "./types";
-import { builtins } from "./main";
-
+import { builtins } from "../main";
 
 export let dynamic_words: any = {};
 
@@ -71,7 +70,6 @@ export function run(program: Stream<Item>, stack: Stack): Stack {
         } else if (element.value == "apply") {
           let word = DestructureTag(stack.main_stack.pop());
           program.inject([Identifier(word)]);
-          console.log("injected", word);
         } else if (element.value == "do") { // looping
           let end = DestructureNumber(stack.main_stack.pop());
           let start = DestructureNumber(stack.main_stack.pop());
