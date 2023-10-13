@@ -106,7 +106,7 @@ export const ui_builtins = {
     "Slider": function (stack: Stack): Stack {
         stack.main_stack.push({
             tag: TypeTag.JSON,
-            value: { html_tag: 'input type="range" min="1" max="100"', value: "", style: ""}
+            value: { html_tag: 'input type="range" min="1" max="100" value="0"', value: "", style: ""}
         })
 
         return stack;
