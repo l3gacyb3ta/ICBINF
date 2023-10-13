@@ -27,8 +27,8 @@ loop
 ### If Statement
 
 ```forth
-1 1 = if "one and one are equal" . else "never reached" then
-1 2 = if "true (never reached)" . else "false" then
+1 1 = if "one and one are equal" else "never reached" then .
+1 2 = if "true (never reached)" else "false" then .
 ```
 
 ### Key/Value store
