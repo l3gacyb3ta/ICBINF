@@ -4,6 +4,8 @@ I CAN'T BELIEVE ITS NOT FORTH! is a forth-like stack-based language, with a web 
 
 Currently, it isn't well documented, but look at all the `builtin.ts` files to see the avaliable builtin functions.
 
+## [Demo](https://arcades.agency/ICBINF/?loadfile=https://doggo.ninja/VoPUzO.icbinf)
+
 ## Examples
 
 ### Loop
