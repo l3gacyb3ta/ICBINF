@@ -52,7 +52,7 @@ export class Stream<Type> implements StreamInterface<Type> {
   inject(data: Type[]) {
     this.streamable.splice(this.index, 0, ...data);
   }
-  replace(values: Type[]) { 
+  replace(values: Type[]) {
     const newArray = [];
     for (let i = 0; i < this.index; i++) {
       newArray.push(this.streamable[i]);
@@ -63,7 +63,7 @@ export class Stream<Type> implements StreamInterface<Type> {
     }
     this.streamable = newArray;
   }
-  
+
 }
 
 export function split_up(input: string): string[] {

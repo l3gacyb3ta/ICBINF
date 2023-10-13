@@ -124,12 +124,14 @@ export const ui_builtins = {
         switch (op) {
             case "get-slider": {
                 let el : any = document.getElementById("output").contentWindow.document.getElementById(operand);
-                stack.main_stack.push(Number(el.value / 100))
+                stack.main_stack.push(Number(el.value / 100));
+                break;
             }
             case "set-slider": {
                 let value = DestructureNumber(stack.main_stack.pop())
                 if (value == null) return stack;
                 document.getElementById("output").contentWindow.document.getElementById(operand).value = (value * 100);
+                break;
             }
             case "attach": {
                 let tag = DestructureTag(stack.main_stack.pop());
@@ -142,6 +144,7 @@ export const ui_builtins = {
                     }
                     run(new Stream<Item>([Identifier(tag)]), nstack);
                 };
+                break;
             }
             case "set-style": {
                 let value = stack.main_stack.pop().value;
