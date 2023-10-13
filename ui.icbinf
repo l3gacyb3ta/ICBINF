@@ -4,6 +4,13 @@
 : rgb! ( r g b - ) blue! green! red! ; : rgb@ ( - r g b ) red@ green@ blue@ ;
 : redSlider! red! renderSquare ; : greenSlider! green! renderSquare ; : blueSlider! blue! renderSquare ;
 
+Square #square id
+Slider #redSlider id
+Slider #greenSlider id
+Slider #blueSlider id
+4 VStack
+render
+
 : renderSquare 
   "rgb(" red@ 255 * round concat "," concat
          blue@ 255 * round concat "," concat
@@ -12,12 +19,6 @@
 
 0 red! 0 green! 0 blue! renderSquare
 
-Square #square id
-Slider #redSlider id
-Slider #greenSlider id
-Slider #blueSlider id
-4 VStack
-render
 
 #blueSlider! #blueSlider #attach ui
 #redSlider! #redSlider #attach ui

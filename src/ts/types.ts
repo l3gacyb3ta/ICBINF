@@ -122,4 +122,3 @@ export function parse_token(input: string): Item {
     value: input
   };
 }
-

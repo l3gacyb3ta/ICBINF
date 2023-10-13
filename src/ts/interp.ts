@@ -40,7 +40,8 @@ export function run(program: Stream<Item>, stack: Stack): Stack {
           while (go_2) { // consume till running
             let elx = program.consume();
             looping.steps_to_go_back += 1;
-            if (elx?.value == ")") go_2 = false;
+            if (elx?.value == ")") { go_2 = false; continue; }
+
           }
         }
         if (element.value in builtins) {
@@ -96,8 +97,8 @@ export function run(program: Stream<Item>, stack: Stack): Stack {
           if (looping.going) {
             stack.main_stack.push(Number(looping.index));
           }
-        } else if (element.value == "then") {
-          break;
+        } else if (element.value == "then" || element.value == "(") {
+          
         } else if (element.value == ":") {
           let ident = program.consume()?.value;
           let value: Item[] = [];

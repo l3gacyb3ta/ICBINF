@@ -1,6 +1,7 @@
 import { DestructureString, String, Number } from "./utils";
 import { Stack, Stream, split_up, parse_token } from "./types";
 import { run, dynamic_words } from "./interp";
+import { kissc } from './vendor/kissc';
 
 let default_builtins: any = {
   "concat": function (stack: Stack): Stack {
@@ -84,7 +85,7 @@ let clear_button = document.getElementById('clear');
 function clear() { document.getElementById('console').value = '' }
 clear_button.onclick = clear
 
-let ticker = 0;
+let ticker: NodeJS.Timeout;
 
 
 let button = document.getElementById("runable");
@@ -104,6 +105,23 @@ button.onclick = function () {
     }, 35)
   }
 }
+
+// let share = document.getElementById("share");
+// let shareModal = document.querySelector("dialog");
+// share.onclick = function () {
+//   let data = document.getElementById("input").value;
+//   let compressed_data=kissc.compress(data)
+//   let url = `${window.location}#${compressed_data}`;
+
+//   shareModal.showModal()
+//   // let clip = new window.Clipboard();
+//   navigator.clipboard.writeText(url);
+//   setTimeout(() => {
+//     shareModal.close();
+//   }, 750);
+//   location.replace(url);  
+//   console.log(url);
+// }
 
 document.getElementById("input").value = `Slider #redSlider id
 Square #square id
@@ -126,3 +144,17 @@ setInterval(() => {
   });
 
 }, 500)
+
+async function recoverState() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  console.log(urlParams);
+
+  fetch(`https://corsproxy.io/?${urlParams.get("loadfile")}`).then(async (resp) => {
+    // console.log(await resp.text())
+    document.getElementById("input").value = await resp.text()
+  })
+
+}
+
+recoverState() 
