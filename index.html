@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="./src/css/main.css" />
+    <script src="./src/ts/main.ts" type="module"></script>
+
+    <title>I CAN'T BELIEVE ITS NOT FORTH</title>
+</head>
+
+<body>
+    <main>
+        <h1 style="height: 2rem"><marquee>I CAN'T BELIEVE IT'S NOT FORTH</marquee></h1>
+
+        <div>
+            <fieldset>
+                <legend>ICBINF CODE GOES HERE</legend>
+                <textarea id="input" rows="12"></textarea>
+                <label>HTML OUTPUT:</label>
+                <label style="float:right">TEXT OUTPUT:</label>
+
+                <div id="outarea">
+                    <iframe id="output">
+                    </iframe>
+                    <textarea id="console" readonly></textarea>
+                </div>
+                <div>
+                    <button id="runable">RUN</button>
+                    <button id="clear">Clear</button>
+                </div>
+            </fieldset>
+
+            <h2>currently user-defined words</h2>
+            <ul id="words">
+
+            </ul>
+
+
+        </div>
+        <br />
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+body {
+  font-family: sans-serif;
+}
+
+iframe {
+  border-color: gray;
+  border-style: solid;
+  margin: 5px;
+}
+
+ul {
+  columns: 3;
+  -webkit-columns: 3;
+  -moz-columns: 3;
+}
+
+fieldset {
+  padding: 10px;
+  width: min-content;
+}
+
+#console {
+  background-color: lightgray;
+}
+
+#outarea {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  align-content: stretch;
+  max-width: 650px;
+}
+
+.uiHorizontal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* for vertical aligning */
+    align-items: center;
+  }
+  
+#outarea textarea {
+  margin: 5px;
+  width: 100%;
+}
+
+#input {
+  width: 650px;
+}
+
+main {
+  max-width: 650px;
+  line-height: 1.6;
+  font-size: 18px;
+  color: #444;
+  margin: 40px auto;
+}

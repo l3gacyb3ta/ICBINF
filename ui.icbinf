@@ -1,0 +1,11 @@
+Slider #redSlider id
+Square #square id
+2 VStack render
+
+: slider ( value - )
+    * 255
+    "rgb(" swap concat ",0,0)" concat #square #setstyle ui ;
+
+#redSlider #attach ui
+#square #attachstyle ui
+
