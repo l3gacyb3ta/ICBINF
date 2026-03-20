@@ -58,7 +58,7 @@ const load_file = async () => {
   
   if (urlParams.get("loadfile") == null) return;
 
-  fetch(`https://corsproxy.io/?${urlParams.get("loadfile")}`).then(async (resp) => {
+  fetch(urlParams.get("loadfile")).then(async (resp) => {
     document.getElementById("input").value = await resp.text()
   })
 
