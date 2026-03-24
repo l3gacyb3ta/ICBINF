@@ -34,6 +34,7 @@ export function DestructureString(n: Item | undefined): string | null {
   if (n == null) return null;
   if (n.value == "") return "";
   if (n.tag == TypeTag.String && typeof (n.value) == "string") return n.value;
+  if (n.tag == TypeTag.Number) return n.value.toString();
   return null;
 }
 

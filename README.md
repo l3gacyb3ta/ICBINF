@@ -41,3 +41,16 @@ loop
 "Hello " #name #get kv  ( "Hello " "Arcade" )
 concat .
 ```
+
+
+```
+: setText #innerText #readout #set-prop ui ;
+: onUpdate 100 * setText ;
+
+"p" "INITIAL" Element #readout id
+Slider #Slider id 
+2 VStack ( Stack all of the elements vertically )
+render ( render the elements to the DOM )
+
+#onUpdate #Slider #attach ui
+```

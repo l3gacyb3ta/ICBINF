@@ -67,6 +67,18 @@ export const ui_builtins = {
 
         return stack
     },
+    "Element": function (stack: Stack): Stack {
+        // (tag content - element)
+        let content = DestructureString(stack.main_stack.pop());
+        let tag = DestructureString(stack.main_stack.pop());
+
+        stack.main_stack.push({
+            tag: TypeTag.JSON,
+            value: { html_tag: tag, value: content, style: "" }
+        })
+
+        return stack
+    },
     "style": function (stack: Stack): Stack {
         let value = stack.main_stack.pop().value;
         if (typeof value != "string") return stack;
@@ -142,6 +154,15 @@ export const ui_builtins = {
                     }
                     run(new Stream<Item>([Identifier(tag)]), nstack);
                 };
+                break;
+            }
+            case "set-prop": {
+                // ( value #property #id -- )
+                let prop = DestructureTag(stack.main_stack.pop());
+                let value = DestructureString(stack.main_stack.pop());
+
+                document.getElementById("output").contentWindow.document.getElementById(operand)[prop] = value;
+
                 break;
             }
             case "set-style": {
